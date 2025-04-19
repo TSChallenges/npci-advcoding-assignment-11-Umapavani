@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 // Service class for analyzing agricultural data
@@ -32,20 +34,22 @@ public class AgDataService {
 
     public Long getCropCount(String cropName) {
         // TODO: Implement this method to Count how many times a specific crop appears in the dataset
-
-        return 0L;
+         return agDataList.stream().filter(crop->crop.getCrop().equals(cropName)).count();
     }
 
     public double getAverageYield(String cropName) {
         // TODO: Implement this method to Calculate the average yield for a specific crop if it exists, else return 0.0
+     OptionalDouble average = agDataList.stream().filter(obj->obj.getCrop().equals(cropName)).map(AgData::getYield).mapToInt(Integer::intValue).average();
+      if(average.isPresent())
+          return average.getAsDouble();
 
-        return 0.0;
+      return 0.0;
     }
 
     public List<AgData> getRecordsByRegion(String region) {
         // TODO: Implement this method to Get all records from a specific region
 
-        return null;
+        return agDataList.stream().filter(crop->crop.getRegion().equals(region)).toList();
     }
 
 }

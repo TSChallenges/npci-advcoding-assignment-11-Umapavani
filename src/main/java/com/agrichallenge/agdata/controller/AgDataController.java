@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.DataOutput;
 import java.io.IOException;
 import java.util.List;
 
@@ -30,12 +31,23 @@ public class AgDataController {
     }
 
     // TODO: GET /api/agdata/crop-count?cropName=corn
+    @GetMapping("/crop-count")
+    public ResponseEntity<Long> getCropByName(@RequestParam String cropName){
+        return ResponseEntity.ok(agDataService.getCropCount(cropName));
+    }
 
 
     // TODO: GET /api/agdata/average-yield?cropName=wheat
 
+    @GetMapping("/average-yield")
+    public ResponseEntity<Double> getAverageYield(@RequestParam String cropName){
+        return ResponseEntity.ok(agDataService.getAverageYield(cropName));
+    }
 
     // TODO: GET /api/agdata/by-region?region=Midwest
-
+    @GetMapping("/by-region")
+    public ResponseEntity<List<AgData>> getRecordsByRegion(@RequestParam String region){
+        return  ResponseEntity.ok(agDataService.getRecordsByRegion(region));
+    }
 
 }
